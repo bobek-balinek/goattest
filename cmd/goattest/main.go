@@ -1,11 +1,23 @@
-# goattest
+package main
 
-Outputs an ASCII-drawn goat whenever output of `go test` contains failed tests.
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
 
-```
-$ go test | goattest
-goat_test.go:23 assertion failed (Validation failed)
-             / /
+func main() {
+	scanner := bufio.NewScanner(os.Stdin)
+
+	for scanner.Scan() {
+		line := scanner.Text()
+		trimmed := strings.TrimSpace(line)
+
+		prefix := ""
+
+		if strings.HasPrefix(trimmed, "--- FAIL") {
+			prefix = `             / /
           (\/_//')
            /   '/
           0  0   \
@@ -23,8 +35,9 @@ goat_test.go:23 assertion failed (Validation failed)
             / (     | |      | |    \ \
            /,_)    /__)     /__)   /,_/
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
---- FAIL: TestGoatValidity (0.00s)
-FAIL
-exit status 1
-FAIL    github.com/goats-corp/invasion-app     0.042s
-```
+`
+		}
+
+		fmt.Println(prefix + line)
+	}
+}

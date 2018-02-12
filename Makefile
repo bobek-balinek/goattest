@@ -1,5 +1,5 @@
 build:
-	go build -o dist/prettytest ./cmd/prettytest
+	go build -o dist/goattest ./cmd/goattest
 
 clean:
 	rm -fr dist/
